@@ -1,0 +1,112 @@
+
+#define Threshold 50
+#define speed 50
+
+
+task main(){
+		
+	int light_value;
+	int color_value;
+		
+		
+	while(1){
+			
+		light_value = SensorValue(light);
+		color_value = SensorValue(color);
+		
+			
+		if(color_value == 2){
+			
+			nxtDisplayTextLine(1,"BLue");
+			speed = speed *2;
+
+			if(light_value <= Threshold){
+			
+				motor[motorA] = 0;
+				motor[motorC] = speed;
+			}
+			else{
+		
+				motor[motorA] = speed;
+				motor[motorC] = 0;
+			}
+							
+		}
+		
+
+		else if(color_value == 3){
+			
+			nxtDisplayTextLine(1,"Green");
+			if(light_value <= Threshold){
+			
+				motor[motorA] = 0;
+				motor[motorC] = speed;
+			}
+			else{
+		
+				motor[motorA] = speed;
+				motor[motorC] = 0;
+			}
+			playSound(soundBeepBeep);
+			wait1Msec(500);
+							
+		}
+		
+		else if(color_value == 4){
+			nxtDisplayTextLine(1,"Yellow");
+			while(color_value == 4){}; // 이거 아니면 노란색이 인식되지 않는 부분까지 간 뒤에 실행
+			motor[motorA] = 0;
+			motor[motorC] = 0;
+			wait1Msec(3000);
+		
+			speed = 50;
+
+			if(light_value <= Threshold){
+			
+				motor[motorA] = 0;
+				motor[motorC] = speed;
+			}
+			else{
+		
+				motor[motorA] = speed;
+				motor[motorC] = 0;
+			}
+		
+							
+											
+		}
+		
+		else if(color_value == 5){
+
+			nxtDisplayTextLine(1,"Red");
+			motor[motorA] =0;
+			motor[motorC] =0;
+			break;
+							
+		}
+		
+		else{
+			nxtDisplayTextLine(1,"???");
+
+			if(light_value <= Threshold){
+			
+				motor[motorA] = 0;
+				motor[motorC] = speed;
+			}
+			else{
+		
+				motor[motorA] = speed;
+				motor[motorC] = 0;
+			}
+		}
+				
+						
+	}
+}
+	
+	
+	
+	
+	
+	
+	

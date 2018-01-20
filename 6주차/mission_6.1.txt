@@ -1,0 +1,103 @@
+
+#define Threshold 50
+
+
+task color_detect(){
+
+	int color_value;	
+
+	while(1){
+
+		if(color_value == 2){
+			
+			speed = speed *2;
+			nxtDisplayTextLine(1,"BLue");
+			motor[motorA] = speed;
+			motor[motorC] = speed;
+							
+							
+		}
+		
+		if(color_value == 3){
+			
+			nxtDisplayTextLine(1,"Green");
+			playSound(soundBeepBeep);
+			wait1Msec(500);
+							
+						
+		}
+		
+		
+		if(color_value == 4){
+			
+			nxtDisplayTextLine(1,"Yellow");
+			motor[motorA] = 0;
+			motor[motorC] = 0;
+			wait1Msec(3000);
+		
+			speed = 50;
+		
+			motor[motorA] = speed;
+			motor[motorC] = speed;
+							
+							
+		}
+		
+			
+		if(color_value == 5){
+				
+			nxtDisplayTextLine(1,"Red");
+			motor[motorA] =0;
+			motor[motorC] =0;
+							
+		}
+	
+		else{
+			nxtDisplayTextLine(1,"???");
+		}
+				
+	}
+}
+
+task main(){
+		
+	int light_value;
+	int color_value;
+	int speed = 50;
+		
+	
+		
+		
+		
+	while(1){
+		light_value = SensorValue(light);
+		color_value = SensorValue(color);
+				
+		color_detect();
+
+		if(light_value <= Threshold){
+			
+			color_detect();
+			motor[motorA] = 0;
+			motor[motorC] = 50;
+			
+		}
+
+		else(){
+
+		color_detect();
+		motor[motorA] = 50;
+		motor[motorC] = 0;
+
+		}
+		color_detect();
+						
+	}
+}
+	
+	
+	
+	
+	
+	
+	

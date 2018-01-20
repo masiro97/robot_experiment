@@ -1,0 +1,33 @@
+task main(){
+	
+while(1){
+	
+
+				if(SensorValue(touch1)==1 && SensorValue(touch2) ==0){
+					motor[motorA] =50;
+					motor[motorC] =0;
+					
+				}
+				if(SensorValue(touch2)==1 && SensorValue(touch1) == 0){
+					
+				motor[motorA] =0;
+				motor[motorC] =50;
+				}
+			
+				if(SensorValue(touch1)==0 && SensorValue(touch2)==0){
+					motor[motorA] =-50;
+					motor[motorC] =-50;
+				}
+				if(SensorValue(touch1) ==1 && SensorValue(touch2) == 1){
+					motor[motorA] =50;
+					motor[motorC] =50;
+					
+				}
+			
+			}
+		}
+					
+					
+			
+	
+		

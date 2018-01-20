@@ -1,0 +1,57 @@
+#define SPEED 50
+#define TIME 2000
+
+void move();
+
+task main(){
+	
+	int button_pressed = 0;  //버튼이 눌린 횟수 초기화
+	
+	clearTimer(T1);
+	
+ 	while(time1[T1] <= 5000){
+	 if(nNxtButtonPressed == kEnterButton){  //Enter버튼을 누르면
+	   clearTimer(T1);		//타이머를 초기화시키고( Error: 버튼이 눌린 후에 타이머를 초기화하지 않으면 처음 버튼이 눌리고 5초뒤에 while문을 빠져나간다)
+  	 while(nNxtButtonPressed == kEnterButton){} //버튼이 한번만 눌리게 하는 코드
+  	 
+ 	button_pressed++; // 버튼이 눌린 횟수를 1씩 추가한다.
+ 	
+	nxtDisplayTextLine(1,"%d",button_pressed); //LCD화면에 버튼이 몇번 눌렸는지 나타낸다.
+		
+	}
+
+}
+	int count = button_pressed / 2 ; //count -> 전진과 후진을 하는 행동을 하는 횟수 (int형 변수로 부동소수점수가 될 경우 소수점 자리를 버린다)
+	 
+	for(int x = count; x >0; x--){  //count수 만큼 전진과 후진을 반복
+	
+		move();
+		
+	}
+	
+if(button_pressed % 2 == 1){  //버튼 눌린 횟수가 홀수일 경우 
+	motor[motorA] = SPEED;
+	motor[motorC] = SPEED;
+	wait1Msec(TIME);
+}
+
+else if(button_pressed % 2 == 0){  //버튼 눌린 횟수가 짝수일 경우
+	
+	}
+}
+
+////////전진과 후진을 왕복하는 함수////////////
+
+
+void move(){
+	
+	
+motor[motorA] = SPEED;
+motor[motorC] = SPEED;
+wait1Msec(TIME);
+
+motor[motorA] = -SPEED;
+motor[motorC] = -SPEED;
+wait1Msec(TIME);
+
+}

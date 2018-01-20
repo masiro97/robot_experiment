@@ -1,0 +1,50 @@
+#pragma config(Sensor, S3,     light,          sensorLightActive)
+#pragma config(Sensor, S1,     color,          sensorColorNxtFULL)
+
+task main()
+{
+	int light_value;
+	int color_value;
+	
+	while(true)
+	{
+		light_value = SensorValue(S3);
+		color_value = SensorValue(S1);
+		
+		motor[motorA] = 20 + (46 - light_value);
+		motor[motorC] = 20 - (46 - light_value);
+		
+		if(color_value == GREENCOLOR)
+		{
+			playSound(soundBeepBeep);	
+			wait1Msec(300);
+		}
+		else if(color_value == BLUECOLOR)
+		{
+			clearTimer(T1);
+			while(time1[T1] < 1000)
+			{
+				light_value = SensorValue(S3);
+			
+				motor[motorA] = 40 + (46 - light_value)*1.5;
+				motor[motorC] = 40 - (46 - light_value)*1.5;
+			}
+		}
+		else if(color_value == YELLOWCOLOR)
+		{
+			motor[motorA] = 0;
+			motor[motorC] = 0;
+			wait1Msec(2000);
+			motor[motorA] = 50;
+			motor[motorC] = 50;
+			wait1Msec(500);
+		}
+		else if(color_value == REDCOLOR)
+		{
+			motor[motorA] = 0;
+			motor[motorC] = 0;
+			wait1Msec(500);
+			break;
+		}
+	}
+}

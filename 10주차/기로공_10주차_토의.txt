@@ -1,0 +1,67 @@
+if(count2==0)
+	pointer_turn_right(40);
+else if(count2 ==1)
+	swing_turn_right(40);
+else if(count2 ==2)
+	curve_turn_right(40);
+else
+	count2 ==0;
+
+-> 이 코드 사용시 count2 가 계속 초기화 된다.
+	-> 현재 쓰고 있는 코드로 변경
+
+
+nMotorEncoderTarget[motorA] = angle;
+	nMotorEncoderTarget[motorC] = -angle;
+	motor[motorA] = mtrspeed;
+	motor[motorC] = -mtrspeed;
+	
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorA] <= angle){}
+
+
+->while(nMotorEncoder[motorA] <= angle){}에서 A를 C로 바꿔써서
+while문을 빠져 나오지 못하고 한번만 실행한 뒤 엔터버튼과 오른쪽, 왼쪽 버튼이
+모두 안눌림
+
+'
+
+while(nNxtButtonPressed != kEnterButton &&
+					nNxtButtonPressed != kLeftButton &&
+					nNxtButtonPressed != kRightButton){}
+
+
+
+-> 이코드를 사용해야 버튼이 눌리지 않았을 떄 정지해 있는다
+-> 타이머를 사용한 코드는 버튼이 눌리고 몇초 뒤에 실행되는
+문제점이 있었다.
+
+
+
+			
+		if(nNxtButtonPressed == kEnterButton)
+		{
+			
+			count1++;
+			wait1Msec(300);
+
+		}
+		
+		else if(nNxtButtonPressed == kRightButton)
+		{	
+			
+			count2++;
+				wait1Msec(300);
+
+		}
+		
+		
+		else if(nNxtButtonPressed == kLeftButton)
+		{
+			count2--;
+				wait1Msec(300);	
+		}
+
+
+-> wait1Msec(300)을 사용하지 않고 while(nNxtButtonPressed == kEnterButton){}사용시 가끔 while문을 빠져나오지 못하는
+오류가 발생한다. 

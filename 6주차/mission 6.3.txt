@@ -1,0 +1,73 @@
+
+
+#define Threshold 50
+
+task main(){
+
+
+	int light_value = SensorValue(light);
+	int color_value = SensorValue(color);
+	int speed = 30;
+		
+
+	while(1){
+
+		if(light_value <= Threshold){
+
+			motor[motorA] = speed;
+			motor[motorC] = speed - 15;
+		}
+	
+		else{
+			motor[motorA] = speed - 15;
+			motor[motorC] = speed;
+
+		switch(color_value){
+
+		case 2:
+			nxtDisplayTextLine(1,"BLue");
+			speed = speed *2;
+			break;
+
+		case 3:
+			nxtDisplayTextLine(1,"Green");
+			playSound(soundBeepBeep);
+			wait1Msec(500);
+			break;
+
+			
+		case 4:
+			
+			nxtDisplayTextLine(1,"Yellow");
+			motor[motorA] = 30;
+			motor[motorC] = 30;
+			Wait1Msec(500);
+
+			motor[motorA] = 0;
+			motor[motorC] = 0;
+			wait1Msec(3000);
+		
+			speed = 30;
+
+			break;
+
+
+		case 5:
+
+			
+			nxtDisplayTextLine(1,"Red");
+			motor[motorA] =0;
+			motor[motorC] =0;
+			break;
+		
+		default:
+
+			nxtDisplayTextLine(1,"???");		
+			break;
+
+			
+		}
+	}
+}
+
+	

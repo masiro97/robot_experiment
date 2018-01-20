@@ -1,0 +1,209 @@
+#define DIAMETER 56
+#define R 55
+
+
+/*float convert(float distance){
+
+	float angle;
+	angle = (55/2/DIAMETER*360);
+	return angle;
+}
+*/
+
+/*
+task main(){
+
+	int rotation;
+	int distance = 200;
+
+	rotation = (int) convert((float)distance);
+
+	nMotorEncoderTarget[motorA] = rotation;
+	nMotorEncoderTarget[motorC] = rotation;
+	motor[motorA] = 40;
+	motor[motorC] = 40;
+
+	while(nMotorEncoder[motorA] < rotation);
+}
+/*
+/*task main(){
+	nSyncedMotors = synchAC;
+	nSyncedTurnRatio = 100;
+	motor[motorA] = 40;
+	wait1Msec(4000);
+}*/
+
+/*task main(){
+	nMotorPIDSpeedCtrl[motorA] = mtrSpeedReg;
+	nMotorPIDSpeedCtrl[motorC] = mtrSpeedReg;
+
+	motor[motorA] = 80;
+	motor[motorC] = 80;
+	wait1Msec(10000);
+
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+}*/
+
+
+
+float angle = (55*360/2/DIAMETER);
+
+void pointer_turn_right(int mtrspeed)
+{
+	
+	
+	nMotorEncoderTarget[motorA] = angle;
+	nMotorEncoderTarget[motorC] = -angle;
+	motor[motorA] = mtrspeed;
+	motor[motorC] = -mtrspeed;
+	
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorA] <= angle){}
+	
+
+}
+
+void swing_turn_right(int mtrspeed)
+
+{		
+
+	nMotorEncoderTarget[motorA] = 2*angle;
+	nMotorEncoderTarget[motorC] = 0;
+	
+	motor[motorA] = mtrspeed;
+	motor[motorC] = 0;
+	nMotorEncoder[motorA] = 0;
+		
+	while(nMotorEncoder[motorA] < 2*angle){}
+
+	
+}
+
+void curve_turn_right(int mtrspeed)
+{
+	
+	nMotorEncoderTarget[motorA] = (300*360/2/DIAMETER);
+	nMotorEncoderTarget[motorC] = (190*360/2/DIAMETER);
+	motor[motorA] = mtrspeed;
+	motor[motorC] = mtrspeed*19/30;
+	
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorA] < (300*360/2/DIAMETER)){}
+
+}
+
+void pointer_turn_left(int mtrspeed)
+{	
+	
+
+	nMotorEncoderTarget[motorC] = angle;
+	nMotorEncoderTarget[motorA] = -angle;
+	
+	motor[motorC] = mtrspeed;
+	motor[motorA] = -mtrspeed;
+	
+	nMotorEncoder[motorC] = 0;
+	while(nMotorEncoder[motorC] < angle){}
+
+	
+	
+}
+
+void swing_turn_left(int mtrspeed)
+{
+
+		
+	
+	nMotorEncoderTarget[motorA] = 0;
+	nMotorEncoderTarget[motorC] = (2*angle);
+	motor[motorA] = 0;
+	motor[motorC] = mtrspeed;
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorC] < (2*angle)){}
+
+
+}
+
+void curve_turn_left(int mtrspeed)
+{
+	nMotorEncoderTarget[motorC] = 300*360/2/DIAMETER;
+	nMotorEncoderTarget[motorA] = 190*360/2/DIAMETER;
+	motor[motorC] = mtrspeed;
+	motor[motorA] = (mtrspeed*19/30);
+	
+	nMotorEncoder[motorC] = 0;
+	while(nMotorEncoder[motorC] <  (300*360/2/DIAMETER)){}
+	
+}
+
+
+task main()
+{
+
+	int count1 =0;
+	int count2 =0;
+
+	while(1)
+	{
+		
+	
+		nxtDisplayTextLine(1,"%d",count1%2);
+	 	nxtDisplayTextLine(2,"%d",count2%3);
+
+	 	
+	 
+		while(nNxtButtonPressed != kEnterButton &&
+					nNxtButtonPressed != kLeftButton &&
+					nNxtButtonPressed != kRightButton){}
+	
+					
+					
+		if(nNxtButtonPressed == kEnterButton)
+		{
+			
+			count1++;
+			wait1Msec(300);
+
+		}
+		
+		else if(nNxtButtonPressed == kRightButton)
+		{	
+			
+			count2++;
+				wait1Msec(300);
+
+		}
+		
+		
+		else if(nNxtButtonPressed == kLeftButton)
+		{
+			count2--;
+				wait1Msec(300);	
+		}
+			
+	 	if(count1%2==1) 
+	 	{
+	 		if(count2%3 ==0)
+	 			pointer_turn_right(40);
+	 		else if(count2%3 ==1)
+	 			swing_turn_right(40);
+	 		else if(count2%3 ==2)
+	 			curve_turn_right(40);
+		}
+	
+		else
+		{
+	   if(count2%3 ==0)
+	 			pointer_turn_left(40);
+	 	 else if(count2%3 ==1)
+	 			swing_turn_left(40);
+	 	 else if(count2%3 ==2)
+	 			curve_turn_left(40);
+		}
+		
+		
+	
+		
+	}
+}

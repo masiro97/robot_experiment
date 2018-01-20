@@ -1,0 +1,120 @@
+#define DIAMETER 60
+
+float angle = (55*360/2/DIAMETER);
+
+void pointer_turn_right(int mtrspeed)
+{
+
+
+	nMotorEncoderTarget[motorA] = angle;
+	nMotorEncoderTarget[motorC] = -angle;
+	motor[motorA] = mtrspeed;
+	motor[motorC] = -mtrspeed;
+
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorA] <= angle){}
+
+
+}
+
+void swing_turn_right(int mtrspeed)
+
+{
+
+	nMotorEncoderTarget[motorA] = 2*angle;
+	nMotorEncoderTarget[motorC] = 0;
+
+	motor[motorA] = mtrspeed;
+	motor[motorC] = 0;
+	nMotorEncoder[motorA] = 0;
+
+	while(nMotorEncoder[motorA] < 2*angle){}
+
+
+}
+
+void curve_turn_right(int mtrspeed)
+{
+
+	nMotorEncoderTarget[motorA] = (300*360/2/DIAMETER);
+	nMotorEncoderTarget[motorC] = (190*360/2/DIAMETER);
+	motor[motorA] = mtrspeed;
+	motor[motorC] = mtrspeed*19/30;
+
+	nMotorEncoder[motorA] = 0;
+	while(nMotorEncoder[motorA] < (300*360/2/DIAMETER)){}
+
+}
+
+
+task main()
+{
+
+	int param = 0;
+	int count = 0;
+	int command1;
+	int command2;
+	
+	
+	nxtDisplayTextLine(1, "My car");
+	wait1Msec(100);
+	
+	while(1){
+			
+	if(bQueuedMsgAvailable()){
+		
+			param = messageParm[0];
+			command1 = messageParm[1];
+			command2 = messageParm[2];
+			
+			nxtDisplayTextLine(2, "param = %d ", param);
+			nxtDisplayTextLine(3, "command1 =  %d ", command1);
+			nxtDisplayTextLine(4, "command2 = %d " , command2);
+			nxtDisplayTextLine(5, "count = %d ", count);
+		
+		
+			if(param == 1){
+				motor[motorA] = 60;
+				motor[motorC] = 60;
+			}
+			
+			else if(param == 2){
+				motor[motorA] = -60;
+				motor[motorC] = -60;
+			
+			}
+
+			else if(param == 3){
+				motor[motorA] = 0;
+				motor[motorC] = 60;
+			}
+			
+			else if(param == 4){
+				motor[motorA] = 60;
+				motor[motorC] = 0;
+			}
+			else if (command1 == 1){
+				count++;
+				
+
+				if(count%3 == 0)
+					pointer_turn_right(40);
+				else if (count% 3 == 1)
+					swing_turn_right(40);
+				else if(count%3 == 2)
+					curve_turn_right(40);
+
+			}
+			
+			else if(command2 == 2){
+				playSound(soundBeepBeep);
+				wait1Msec(500);
+
+			}
+			
+			
+			wait1Msec(90);
+			ClearMessage(); 
+		}
+	}
+}

@@ -1,0 +1,55 @@
+nxtDisplayTextLine(LCD위치,"출력 내용", 출력변수명):
+NXT LCD창에 지정된 형식으로 변수 값을 출력(LCD의 글 위치는 0~7까지)
+예시 : nxtDisplayTextLine(1,"x is %d", x);
+       nxtDisplayTextLine(1,"True");
+
+random(3000); :
+0부터 2999사이에 임의의 값을 출력해주는 함수
+
+bFloatDuringInactiveMotorPWM :
+NXT motor는 기본적으로 정지모드가 float/brake로 이루어져있다.
+기본 값은 float로 되어 있으므로 'false'값을 주어 바로 정지할 수 있다.
+예시 : bFloatDuringInactiveMotorPWM = false; //nxt 모터상태를 brake모드로 설정
+
+타이머활용
+
+시간초기화 : ClearTimer(T1) time[T1] = 0;
+
+NXT 타이머는 1ms단위로 계산되는데, 네개의 Timer(T1,T2,T3,T4)로 각각 초기화하여
+시간을 측정하고 원하는 시간만큼 프로그램을 동작시킬수 있다.
+time100[], time10[], time1[]로 시간을 사용할 수 있다.
+
+전진과 후진을 20회 반복하는 코드
+
+task main(){
+
+int i;
+for(i=0; i<20; i++){
+
+	motor[motorA] = 50; // A : Left motor
+	motor[motorC] = 50; // C : Right motor
+	wait1Msec(500); // 이전 행동을 500ms만큼 유지
+	motor[motorA] = -50;
+	motor[motorC] = -50;
+	wait1Msec(500);
+}
+
+nNxtExitCliks = 클릭 횟수 :
+횟수 만큼 취소버튼을 연속으로 클릭하면 프로그램이 종료
+
+nNxtButtonPressed :
+NXT의 어떤버튼이 눌렸는지를 알려주는 변수
+
+매개변수사용
+
+void move(int speed, int time){
+	motor[motorA] = speed;
+	motor[motorC] = speed;
+	wait1Msec(time);
+}
+
+task main(){
+	move(75, 2000);
+	move(-75,2000);
+	move(75,2000);
+	move(-75,2000);

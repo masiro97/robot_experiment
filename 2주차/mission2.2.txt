@@ -1,0 +1,38 @@
+task main(){
+
+int speed = 50;
+int left = 0;
+int right = 0;
+
+while(1){
+	
+	motor[motorA] = speed;
+	motor[motorC] = speed;
+	
+	nxtDisplayTextLine(1, "%d %d", left, right);
+	
+	if(nNxtButtonPressed == kLeftButton){
+		while(nNxtButtonPressed == kLeftButton){}
+			speed = speed -10;
+			left = left +1;
+	else if(nNxtButtonPressed == kExitButton){
+		break;
+	}
+		
+	}	
+	
+	
+	if(nNxtButtonPressed == kRightButton){
+		while(nNxtButtonPressed == krightButton){}
+			speed = speed +10;
+			right = right +1;	
+		}
+	
+	if( left >= 3 && right >=3){
+	left=0; right =0;
+		motor[motorA] = 0;
+		motor[motorC] = 0;
+		wait1Msec(5000);
+	}
+}
+}*/

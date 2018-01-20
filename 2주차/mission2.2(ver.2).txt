@@ -1,0 +1,41 @@
+
+
+
+
+
+task main(){
+
+int speed = 50; // 모터 스피드 = 50
+int left = 0; // 왼쪽 눌린 횟수 초기화
+int right = 0; // 오른쪽 눌린 횟수 초기화
+
+while(1){
+	
+		motor[motorA] = speed;
+		motor[motorC] = speed;			
+	
+		nxtDisplayTextLine(1, "%d %d", left, right); // LCD화면에 왼쪽버튼이 눌린 횟수와 오른쪽 버튼이 눌린 횟수를 나타낸다.
+	
+		switch(nNxtButtonPressed){
+	
+		case kLeftButton: //왼쪽 버튼이 눌렷을경우
+			while(nNxtButtonPressed == kLeftButton){}   //왼쪽 버튼이 한번만 눌리게 하는 코드
+				speed = speed -10;     //speed값을 10만큼 낮추고 왼쪽 눌린 횟수 1추가
+				left = left +1;
+
+		case kRightButton: //오른쪽 버튼이 눌렸을 경우
+			while(nNxtButtonPressed == kRightButton){} // 오른쪽 버튼이 한번만 눌리게 하는 코드
+				speed = speed +10; // speed 값을 10만큼 높이고 오른쪽 눌린 횟수 1추가
+				right = right +1;
+	
+		}
+
+	
+		if( left >= 3 && right >=3){  //왼쪽 또는 오른쪽 버튼이 3번이상 눌리게 되면
+			left=0; right = 0;  //왼쪽과 오른쪽이 눌린 횟수를 다시 초기화하고(Error:버튼 수를 초기화하지 않으면 1번만 실행한다)
+			motor[motorA] = 0;  //5초간 멈춘후 while문 안에 있기 때문에 다시 처음으로 돌아가 모터는 speed 값을 받는다.
+			motor[motorC] = 0;
+			wait1Msec(5000);
+		}
+	}
+}

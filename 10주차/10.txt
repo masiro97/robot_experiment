@@ -1,0 +1,161 @@
+/*#define DIAMETER 56
+
+float convert(float distance){
+
+	float angle;
+	angle = (360 * distance / DIAMETER / PI);
+	return angle;
+}
+
+task main(){
+
+	int rotation;
+	int distance = 200;
+
+	rotation = (int) convert((float)distance);
+
+	nMotorEncoderTarget[motorA] = rotation;
+	nMotorEncoderTarget[motorC] = rotation;
+	motor[motorA] = 40;
+	motor[motorC] = 40;
+
+	while(nMotorEncoder[motorA] < rotation);
+}*/
+
+/*task main(){
+	nSyncedMotors = synchAC;
+	nSyncedTurnRatio = 100;
+	motor[motorA] = 40;
+	wait1Msec(4000);
+}*/
+
+/*task main(){
+	nMotorPIDSpeedCtrl[motorA] = mtrSpeedReg;
+	nMotorPIDSpeedCtrl[motorC] = mtrSpeedReg;
+
+	motor[motorA] = 80;
+	motor[motorC] = 80;
+	wait1Msec(10000);
+
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+}*/
+
+
+void pointer_turn_right(int mtrspeed)
+{
+	motor[motorA] = mtrspeed;
+	motor[motorC] = -mtrspeed;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+	wait1Msec(300);
+}
+
+void swing_turn_right(int mtrspeed)
+{		
+	motor[motorA] = mtrspeed;
+	motor[motorC] = 0;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+	wait1Msec(300);
+}
+
+void curve_turn_right(int mtrspeed)
+{
+	nSyncedMotors = synchAC;
+	nSyncedTurnRatio = 50;
+	motor[motorA] = mtrspeed;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+  motor[motorC] = 0;
+  wait1Msec(300);
+}
+
+void pointer_turn_left(int mtrspeed)
+{
+	motor[motorA] = -mtrspeed;
+	motor[motorC] = mtrspeed;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+	wait1Msec(300);
+}
+
+void swing_turn_left(int mtrspeed)
+{
+	motor[motorC] = mtrspeed;
+	motor[motorA] = 0;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+	motor[motorC] = 0;
+	wait1Msec(300);
+}
+
+void curve_turn_left(int mtrspeed)
+{
+	nSyncedMotors = synchCA;
+	nSyncedTurnRatio = 50;
+	motor[motorC] = mtrspeed;
+	wait1Msec(2000);
+	motor[motorA] = 0;
+  motor[motorC] = 0;
+  wait1Msec(300);
+}
+
+
+task main()
+{
+	nMotorPIDSpeedCtrl[motorA] = mtrSpeedReg;
+	nMotorPIDSpeedCtrl[motorC] = mtrSpeedReg;
+
+	int count1 =0;
+	int count2 =0;
+
+	while(1)
+	{
+		nxtDisplayTextLine(1,"%d",count1%2);
+	 	nxtDisplayTextLine(2,"%d",count2%3);
+
+		while(nNxtButtonPressed != kEnterButton &&
+					nNxtButtonPressed != kLeftButton &&
+					nNxtButtonPressed != kRightButton){}
+	
+		if(nNxtButtonPressed == kEnterButton)
+		{
+			count1++;
+			wait1Msec(300);
+		}
+
+		else if(nNxtButtonPressed == kRightButton)
+		{
+			count2++;
+			wait1Msec(300);
+		}
+		else if(nNxtButtonPressed == kLeftButton)
+		{
+			count2--;
+			wait1Msec(300);
+		}
+
+	 	if(count1%2==0)
+	 	{
+		  if(count2%3==0)
+		   pointer_turn_right(40);
+		  else if(count2%3==1)
+		   swing_turn_right(40);
+	 	  else //if(count2%3==2) 
+		   curve_turn_right(40);
+		}
+		else
+	  {
+	   if(count2%3==0)
+	    pointer_turn_left(40);
+	   else if(count2%3==1)
+	    swing_turn_left(40);
+ 	   else //if(count2%3==2) 
+	    curve_turn_left(40);
+	  }
+	} 
+}

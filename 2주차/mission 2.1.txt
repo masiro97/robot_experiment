@@ -1,0 +1,52 @@
+void move(){
+	
+int speed;
+	
+motor[motorA] = speed;
+motor[motorC] = speed;
+wait1Msec(1000);
+
+speed = -speed;
+
+motor[motorA] = speed;
+motor[motorC] = speed;
+wait1Msec(1000);
+
+}
+task main()
+{	
+	int speed =50;
+ 	int button_pressed = 0;
+	int count = int(button_pressed / 2);
+	
+	clearTimer(T1);
+	
+ 	while(time[T1] <= 5000){
+	 if(nNxtButtonPressed == kEnterButton){
+  	 while(nNxtButtonPressed == kEnterButton){}
+ 	button_pressed++;
+	nxtDisplayTextLine(1,"%d",button_pressed);
+	}
+
+
+	 else{ 
+	 motor[motorA] = 0;
+	 motor[motorC] = 0;
+	 wait1Msec(5000);
+}
+}
+for(int x = count; x >0; x--){
+	
+		move();
+		
+	}
+if(button_pressed % 2 == 1){
+	motor[motorA] = 50;
+	motor[motorC] = 50'
+	wait1Msec(2000);
+}
+else if(button_pressed % 2 == 0){
+	motor[motorA] =0;
+	motor[motorC] =0;
+	wait1Msec(2000);
+}
